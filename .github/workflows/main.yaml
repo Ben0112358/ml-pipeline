@@ -1,4 +1,4 @@
-name: bash linting via shfmt
+name: bash linting check via shfmt
 
 on:
   pull_request:
