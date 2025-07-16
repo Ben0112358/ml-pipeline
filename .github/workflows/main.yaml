@@ -1,0 +1,25 @@
+name: shfmt Check
+
+on:
+  push:
+    paths:
+      - '**/*.sh'
+  pull_request:
+    paths:
+      - '**/*.sh'
+
+jobs:
+  shfmt:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install shfmt
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y shfmt
+
+    - name: Run shfmt check
+      run: |
+        shfmt -d .
