@@ -1,46 +1,38 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-if [[ -z "${ML_HOMELAB_ROOT}" ]]; then
-	echo "Error: ML_HOMELAB_ROOT environment variable is not set."
-	exit 1
-fi
+mkdir -p "$ML_WORKSPACE_ROOT"
 
-clone_gh_repo_and_pull_latest() {
-	local gh_repo_clone_url="$1"
-	local gh_repo_target_folder_name="$2"
-	local branch="${3:-main}"
-	local pull_latest="${4:-1}"
+prepare_repo() {
+    local gh_repo_clone_url="$1"
+    local gh_repo_folder_name="$2"
+    local mode="${3:-dev}"
 
-	local full_path="${ML_HOMELAB_ROOT}/${gh_repo_target_folder_name}"
+    local target_dir="$ML_WORKSPACE_ROOT/$gh_repo_folder_name"
 
-	if [[ -e "$full_path" ]]; then
-		echo "Repo already exists at $full_path"
-	else
-		echo "Cloning repo into $full_path"
-		git clone "$gh_repo_clone_url" "$full_path"
-	fi
+    echo "Preparing repo: $gh_repo_folder_name (mode: $mode)"
 
-	echo "Changing working directory to $full_path"
-	cd "$full_path" || {
-		echo "Failed to cd into $full_path"
-		return 1
-	}
-
-	echo "Fetching latest info from remote"
-	git fetch origin
-
-	echo "Checking out branch $branch"
-	git checkout "$branch" || {
-		echo "Failed to checkout branch $branch"
-		return 1
-	}
-
-	if [[ "$pull_latest" == "1" ]]; then
-		echo "Pulling latest changes from remote"
-		git pull origin "$branch"
-	else
-		echo "Not pulling latest from remote; using local state"
-	fi
+    if [[ "$mode" == "prod" ]]; then
+        if [[ -d "$target_dir" ]]; then
+            echo "Repo $gh_repo_folder_name already exists, skipping clone."
+        else
+            git clone "$gh_repo_clone_url" "$target_dir"
+        fi
+    else
+        if [[ ! -d "$ML_HOMELAB_ROOT/$gh_repo_folder_name" ]]; then
+            echo "Error: "$ML_HOMELAB_ROOT"/$gh_repo_folder_name not found on host."
+            exit 1
+        fi
+        rm -rf "$target_dir"
+        cp -r "$ML_HOMELAB_ROOT/$gh_repo_folder_name" "$target_dir"
+    fi
 }
+
+MODE="${1:-dev}"
+
+prepare_repo "https://github.com/Ben0112358/ml-infra.git" "ml-infra" "$MODE"
+prepare_repo "https://github.com/Ben0112358/ml-data.git" "ml-data" "$MODE"
+prepare_repo "https://github.com/Ben0112358/ml-training.git" "ml-training" "$MODE"
+prepare_repo "https://github.com/Ben0112358/ml-serving.git" "ml-serving" "$MODE"
+prepare_repo "https://github.com/Ben0112358/ml-ui.git" "ml-ui" "$MODE"
