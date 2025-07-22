@@ -5,28 +5,28 @@ set -euo pipefail
 mkdir -p "$ML_WORKSPACE_ROOT"
 
 prepare_repo() {
-    local gh_repo_clone_url="$1"
-    local gh_repo_folder_name="$2"
-    local mode="${3:-dev}"
+	local gh_repo_clone_url="$1"
+	local gh_repo_folder_name="$2"
+	local mode="${3:-dev}"
 
-    local target_dir="$ML_WORKSPACE_ROOT/$gh_repo_folder_name"
+	local target_dir="$ML_WORKSPACE_ROOT/$gh_repo_folder_name"
 
-    echo "Preparing repo: $gh_repo_folder_name (mode: $mode)"
+	echo "Preparing repo: $gh_repo_folder_name (mode: $mode)"
 
-    if [[ "$mode" == "prod" ]]; then
-        if [[ -d "$target_dir" ]]; then
-            echo "Repo $gh_repo_folder_name already exists, skipping clone."
-        else
-            git clone "$gh_repo_clone_url" "$target_dir"
-        fi
-    else
-        if [[ ! -d "$ML_HOMELAB_ROOT/$gh_repo_folder_name" ]]; then
-            echo "Error: "$ML_HOMELAB_ROOT"/$gh_repo_folder_name not found on host."
-            exit 1
-        fi
-        rm -rf "$target_dir"
-        cp -r "$ML_HOMELAB_ROOT/$gh_repo_folder_name" "$target_dir"
-    fi
+	if [[ "$mode" == "prod" ]]; then
+		if [[ -d "$target_dir" ]]; then
+			echo "Repo $gh_repo_folder_name already exists, skipping clone."
+		else
+			git clone "$gh_repo_clone_url" "$target_dir"
+		fi
+	else
+		if [[ ! -d "$ML_HOMELAB_ROOT/$gh_repo_folder_name" ]]; then
+			echo "Error: "$ML_HOMELAB_ROOT"/$gh_repo_folder_name not found on host."
+			exit 1
+		fi
+		rm -rf "$target_dir"
+		cp -r "$ML_HOMELAB_ROOT/$gh_repo_folder_name" "$target_dir"
+	fi
 }
 
 MODE="${1:-dev}"

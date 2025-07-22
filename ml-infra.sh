@@ -2,8 +2,8 @@
 set -e
 
 cd "${ML_WORKSPACE_ROOT}/ml-infra" || {
-  echo "Failed to cd into ml-infra repo."
-  exit 1
+	echo "Failed to cd into ml-infra repo."
+	exit 1
 }
 
 terraform init
