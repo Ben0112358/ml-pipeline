@@ -2,28 +2,26 @@
 set -euo
 
 if [[ $# -ne 2 ]]; then
-  echo "Usage: $0 <project_name> <mode: prod|dev>"
-  exit 1
+	echo "Usage: $0 <project_name> <mode: prod|dev>"
+	exit 1
 fi
 
 PROJECT="$1"
 MODE="$2"
 
 if [[ "$MODE" != "prod" && "$MODE" != "dev" ]]; then
-  echo "Error: Mode must be 'prod' or 'dev', but got '$MODE'"
-  exit 1
+	echo "Error: Mode must be 'prod' or 'dev', but got '$MODE'"
+	exit 1
 fi
 
 TIMESTAMP=$(date +"%Y-%m-%d-%H-%M")
 OUTPUT_SUFFIX="${PROJECT}_${MODE}_${TIMESTAMP}"
 IMAGE_NAME="${PROJECT}-pipeline-image-${MODE}"
 
-docker ps --format "{{.ID}} {{.Image}}" \
-  | grep "${PROJECT}_${MODE}_" \
-  | awk '{print $1}' \
-  | xargs -r docker kill
-
-
+docker ps --format "{{.ID}} {{.Image}}" |
+	grep "${PROJECT}_${MODE}_" |
+	awk '{print $1}' |
+	xargs -r docker kill
 
 echo "Building Docker image..."
 docker build -t "$IMAGE_NAME" . --no-cache

@@ -14,4 +14,4 @@ terraform output -json | jq -r '
   | map(select(.key | test("^[A-Z_]+$")))
   | map("\(.key)=\"\(.value.value|tostring)\"")
   | .[]
-' > "${ML_HOMELAB_ROOT}/.terraform_envs"
+' >"${ML_HOMELAB_ROOT}/.terraform_envs"
