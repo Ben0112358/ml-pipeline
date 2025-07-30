@@ -3,11 +3,12 @@
 set -euo pipefail
 
 mkdir -p "$ML_WORKSPACE_ROOT"
+chmod -R 777 "$ML_WORKSPACE_ROOT"
 
 prepare_repo() {
 	local gh_repo_clone_url="$1"
 	local gh_repo_folder_name="$2"
-	local mode="${3:-dev}"
+	local mode="$3"
 
 	local target_dir="$ML_WORKSPACE_ROOT/$gh_repo_folder_name"
 
