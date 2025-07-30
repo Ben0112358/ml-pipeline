@@ -26,6 +26,12 @@ docker ps --format "{{.ID}} {{.Image}}" |
 echo "Building Docker image..."
 docker build -t "$IMAGE_NAME" . --no-cache
 
+HASH=$(echo -n "${PROJECT}_${MODE}" | md5sum | cut -c1-6)
+BASE_PORT=$((0x$HASH % 32000 + 8000))
+
+SERVING_PORT=$BASE_PORT
+UI_PORT=$((BASE_PORT + 1))
+
 docker run --rm \
 	-v ~/.netrc:/root/.netrc:ro \
 	-v /var/run/docker.sock:/var/run/docker.sock \
@@ -43,4 +49,6 @@ docker run --rm \
 	-e TF_VAR_timestamp="$TIMESTAMP" \
 	-e OUTPUT_SUFFIX="$OUTPUT_SUFFIX" \
 	-e TF_VAR_output_suffix="$OUTPUT_SUFFIX" \
+	-e SERVING_PORT="$SERVING_PORT" \
+	-e UI_PORT="$UI_PORT" \
 	"$IMAGE_NAME" "$PROJECT" "$MODE"

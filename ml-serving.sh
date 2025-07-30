@@ -13,5 +13,6 @@ cd "${ML_WORKSPACE_ROOT}/ml-serving" || {
 	exit 1
 }
 
-docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" build --no-cache
-docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" up -d
+docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" -p "${PROJECT_NAME}_${MODE}" build --no-cache
+docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" -p "${PROJECT_NAME}_${MODE}" up -d
+
