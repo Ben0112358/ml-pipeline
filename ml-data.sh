@@ -18,4 +18,3 @@ cd "${ML_WORKSPACE_ROOT}/ml-data" || {
 
 docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" -p "${PROJECT_NAME}_${MODE}" build --no-cache
 docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" -p "${PROJECT_NAME}_${MODE}" up -d
-
