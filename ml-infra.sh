@@ -8,3 +8,10 @@ cd "${ML_WORKSPACE_ROOT}/ml-infra" || {
 
 terraform init
 terraform apply -auto-approve
+
+terraform output -json | jq -r '
+  to_entries
+  | map(select(.key | test("^[A-Z_]+$")))
+  | map("\(.key)=\"\(.value.value|tostring)\"")
+  | .[]
+' >"${ML_HOMELAB_ROOT}/.terraform_envs"

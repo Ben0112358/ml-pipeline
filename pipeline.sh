@@ -1,20 +1,23 @@
 #!/bin/bash
 set -euo
 
+PROJECT_NAME="$1"
+MODE="$2"
+
 echo "---Running setup---"
-./setup.sh
+./setup.sh "$MODE"
 
 echo "---Running infra---"
-./ml-infra.sh "$1"
+./ml-infra.sh "$PROJECT_NAME" "$MODE"
 
 echo "---Running data---"
-./ml-data.sh "$1"
+./ml-data.sh "$PROJECT_NAME"
 
 echo "---Running training---"
-./ml-training.sh "$1"
+./ml-training.sh "$PROJECT_NAME"
 
 echo "---Running serving---"
-./ml-serving.sh "$1"
+./ml-serving.sh "$PROJECT_NAME"
 
 echo "---Running ui---"
-./ml-ui.sh "$1"
+./ml-ui.sh "$PROJECT_NAME"
