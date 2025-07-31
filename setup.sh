@@ -12,8 +12,6 @@ prepare_repo() {
 
 	local target_dir="$ML_WORKSPACE_ROOT/$gh_repo_folder_name"
 
-
-
 	log "INFO" "Preparing repo: $gh_repo_folder_name (mode: $mode)"
 
 	if [[ "$mode" == "prod" ]]; then
@@ -22,8 +20,8 @@ prepare_repo() {
 			log "INFO" "Repo $gh_repo_folder_name already exists, deleting in order to get latest."
 			rm -rf "$target_dir"
 		fi
-			log "INFO" "Cloning remote repo"
-			git clone "$gh_repo_clone_url" "$target_dir"
+		log "INFO" "Cloning remote repo"
+		git clone "$gh_repo_clone_url" "$target_dir"
 	else
 		if [[ ! -d "$ML_HOMELAB_ROOT/$gh_repo_folder_name" ]]; then
 			log "ERROR" "$ML_HOMELAB_ROOT/$gh_repo_folder_name not found on host."

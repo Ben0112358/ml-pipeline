@@ -2,8 +2,8 @@
 set -euo pipefail
 
 if [[ -z "$ML_HOMELAB_ROOT" ]]; then
-  echo "Error: MY_VAR is not set. Exiting."
-  exit 1
+	echo "Error: MY_VAR is not set. Exiting."
+	exit 1
 fi
 
 mkdir -p $ML_HOMELAB_ROOT
@@ -29,18 +29,16 @@ if [[ "$MODE" != "prod" && "$MODE" != "dev" ]]; then
 	exit 1
 fi
 
-
 TIMESTAMP=$(date +"%Y-%m-%d-%H-%M")
 OUTPUT_SUFFIX="${PROJECT}_${MODE}_${TIMESTAMP}"
 IMAGE_NAME="${PROJECT}-pipeline-image-${MODE}"
 
 log "INFO" "Killing relevant existing docker containers."
 docker ps --format "{{.ID}} {{.Image}}" |
-  grep "${PROJECT}_${MODE}_" |
-  awk '{print $1}' |
-  xargs -r docker kill 2>/dev/null || 
-  log "INFO" "No relevant docker containers to kill."
-
+	grep "${PROJECT}_${MODE}_" |
+	awk '{print $1}' |
+	xargs -r docker kill 2>/dev/null ||
+	log "INFO" "No relevant docker containers to kill."
 
 log "INFO" "Building docker image $IMAGE_NAME."
 docker build -t "$IMAGE_NAME" . --no-cache
