@@ -11,7 +11,7 @@ log "INFO" "Running setup."
 ./setup.sh "$MODE"
 
 log "INFO" "Setup succeeded => rename log file from unknown to the known project name."
-NEW_LOG_FILE_PATH="${ML_HOMELAB_ROOT}/log_${OUTPUT_SUFFIX}.log"
+NEW_LOG_FILE_PATH="${ML_HOMELAB_ROOT}/log_ml-pipeline_${OUTPUT_SUFFIX}.log"
 mv "${LOG_FILE_PATH}" "${NEW_LOG_FILE_PATH}"
 LOG_FILE_PATH=$NEW_LOG_FILE_PATH
 
