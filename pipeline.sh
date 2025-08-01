@@ -17,6 +17,7 @@ LOG_FILE_PATH=$NEW_LOG_FILE_PATH
 
 log "INFO" "Running ml-infra."
 ./ml-infra.sh "$PROJECT_NAME" "$MODE"
+mv "${ML_HOMELAB_ROOT}/log_${OUTPUT_SUFFIX}.log" "${ML_HOMELAB_ROOT}/logs/infra/log_${OUTPUT_SUFFIX}.log"
 
 log "INFO" "Running ml-data."
 ./ml-data.sh "$PROJECT_NAME"
@@ -29,3 +30,5 @@ log "INFO" "Running serving."
 
 log "INFO" "Running ml-ui."
 ./ml-ui.sh "$PROJECT_NAME"
+
+mv "${LOG_FILE_PATH}" "${ML_HOMELAB_ROOT}/logs/pipeline/log_${OUTPUT_SUFFIX}.log"
