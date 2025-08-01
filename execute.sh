@@ -70,6 +70,8 @@ docker_cmd="docker run --rm \
   -e TF_VAR_output_suffix=\"$OUTPUT_SUFFIX\" \
   -e SERVING_PORT=\"$SERVING_PORT\" \
   -e UI_PORT=\"$UI_PORT\" \
+  -e TF_LOG=INFO \
+  -e TF_LOG_PATH=\"${ML_HOMELAB_ROOT}/log_ml-infra_${OUTPUT_SUFFIX}.log\" \
   \"$IMAGE_NAME\" \"$PROJECT\" \"$MODE\" \"$OUTPUT_SUFFIX\""
 
 log "INFO" "Running: $docker_cmd"
