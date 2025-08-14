@@ -32,13 +32,10 @@ fi
 TIMESTAMP=$(date +"%Y-%m-%d-%H-%M")
 OUTPUT_SUFFIX="${PROJECT}_${MODE}_${TIMESTAMP}"
 IMAGE_NAME="${PROJECT}-pipeline-image-${MODE}"
+KILL_PREFIX="${PROJECT}_${MODE}"
 
-log "INFO" "Killing relevant existing docker containers."
-docker ps --format "{{.ID}} {{.Image}}" |
-	grep "${PROJECT}_${MODE}_" |
-	awk '{print $1}' |
-	xargs -r docker kill 2>/dev/null ||
-	log "INFO" "No relevant docker containers to kill."
+log "INFO" "Clean up existing docker stuff for ${KILL_PREFIX}."
+source ./cleanup-docker-prefix.sh "$KILL_PREFIX"
 
 log "INFO" "Building docker image $IMAGE_NAME."
 docker build -t "$IMAGE_NAME" . --no-cache
