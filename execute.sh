@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+source ./utils.sh
+trap cleanup EXIT
+
 if [[ -z "$ML_HOMELAB_ROOT" ]]; then
 	echo "Error: MY_VAR is not set. Exiting."
 	exit 1
@@ -8,9 +11,9 @@ fi
 
 mkdir -p $ML_HOMELAB_ROOT
 
-source ./utils.sh
 rm -f ${ML_HOMELAB_ROOT}/*.log
 
+export PIPELINE_LOG_FILE_PATH="${ML_HOMELAB_ROOT}/unknown-pipeline.log"
 log "INFO" "Execution of pipeline started."
 log "INFO" "Env var ML_HOMELAB_ROOT exists and a directory has been created (if it didn't already exist)."
 
@@ -61,6 +64,7 @@ docker_cmd="docker run --rm \
   -e TF_VAR_project_name=\"$PROJECT\" \
   -e DOCKER_NETWORK_NAME=\"${PROJECT}_${MODE}\" \
   -e TF_VAR_docker_network_name=\"${PROJECT}_${MODE}\" \
+  -e PIPELINE_LOG_FILE_PATH=\"$PIPELINE_LOG_FILE_PATH\" \
   -e TIMESTAMP=\"$TIMESTAMP\" \
   -e TF_VAR_timestamp=\"$TIMESTAMP\" \
   -e OUTPUT_SUFFIX=\"$OUTPUT_SUFFIX\" \
@@ -73,3 +77,4 @@ docker_cmd="docker run --rm \
 
 log "INFO" "Running: $docker_cmd"
 eval "$docker_cmd"
+echo "Serving: http://localhost:${SERVING_PORT}; UI: http://localhost:${UI_PORT}"
