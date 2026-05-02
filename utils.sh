@@ -1,24 +1,21 @@
 #!/bin/bash
 set -euo pipefail
 
-
 log() {
 	local severity="$1"
 	local msg="$2"
 
-
 	case "$severity" in
-		INFO|WARNING|ERROR)
-			;;
-		*)
-			echo "Invalid log level: $severity"
-			return 1
-			;;
+	INFO | WARNING | ERROR) ;;
+	*)
+		echo "Invalid log level: $severity"
+		return 1
+		;;
 	esac
 
 	local full_row="$(date -u +"%a %b %d %T UTC %Y") - $severity: $msg"
 	echo "$full_row"
-	echo "$full_row" >> "${PIPELINE_LOG_FILE_PATH}"
+	echo "$full_row" >>"${PIPELINE_LOG_FILE_PATH}"
 }
 
 log_safe() {
@@ -26,7 +23,6 @@ log_safe() {
 	log "$1" "$2"
 	set -e
 }
-
 
 cleanup() {
 	local status=$?
@@ -38,5 +34,3 @@ cleanup() {
 		log_safe "INFO" "Pipeline finished successfully (0)"
 	fi
 }
-
-
