@@ -12,7 +12,7 @@ To get an overview of how all sub-repos are tied together, refer to https://gith
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ml-pipeline/
@@ -32,7 +32,7 @@ ml-pipeline/
 
 ---
 
-## ✅ Prerequisites
+## Prerequisites
 
 - **Docker** installed and running
 - **Linux or macOS**
@@ -40,7 +40,7 @@ ml-pipeline/
 
 ---
 
-## 🔧 Required Environment Variable
+## Required Environment Variable
 
 Set the base directory where shared ML assets and configs are stored:
 
@@ -50,7 +50,7 @@ export ML_HOMELAB_ROOT=/absolute/path/to/ml-homelab
 
 ---
 
-## 🚀 Recommended Way to Run (Linux / macOS)
+## Recommended Way to Run (Linux / macOS)
 
 You can run the full pipeline inside a lightweight container:
 
@@ -70,13 +70,13 @@ Replace `<project_name>` with the name of your ML project (e.g., `dummy_project`
 
 ---
 
-## 💻 Windows Support
+## Windows Support
 
 Windows users should run this via **WSL2**. Once inside WSL, follow the Linux instructions above.
 
 ---
 
-## 🌐 Networking
+## Networking
 
 Containers such as `ml-serving` and `ml-ui` will expose services on local ports. The port assignment is a function of `<project_name>` and `<mode>`. The logic is found in `<execute.sh>`.
 
