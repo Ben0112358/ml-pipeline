@@ -30,6 +30,10 @@ prepare_repo() {
 		log "INFO" "Copying local repo"
 		rm -rf "$target_dir"
 		cp -r "$ML_HOMELAB_ROOT/$gh_repo_folder_name" "$target_dir"
+		if [[ "$gh_repo_folder_name" == "ml-infra" ]]; then
+			rm -rf "$target_dir/.terraform"
+			find "$target_dir" -maxdepth 1 -name 'terraform.tfstate*' -delete
+		fi
 	fi
 }
 

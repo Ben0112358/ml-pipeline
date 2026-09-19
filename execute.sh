@@ -5,7 +5,7 @@ source ./utils.sh
 trap cleanup EXIT
 
 if [[ -z "$ML_HOMELAB_ROOT" ]]; then
-	echo "Error: MY_VAR is not set. Exiting."
+	echo "Error: ML_HOMELAB_ROOT is not set. Exiting."
 	exit 1
 fi
 
@@ -68,7 +68,6 @@ docker_cmd="docker run --rm \
   -e TIMESTAMP=\"$TIMESTAMP\" \
   -e TF_VAR_timestamp=\"$TIMESTAMP\" \
   -e OUTPUT_SUFFIX=\"$OUTPUT_SUFFIX\" \
-  -e TF_VAR_output_suffix=\"$OUTPUT_SUFFIX\" \
   -e SERVING_PORT=\"$SERVING_PORT\" \
   -e UI_PORT=\"$UI_PORT\" \
   -e TF_LOG=INFO \
