@@ -18,6 +18,7 @@ export PIPELINE_LOG_FILE_PATH="$NEW_LOG"
 
 log "INFO" "Running ml-infra."
 ./ml-infra.sh "$PROJECT_NAME" "$MODE"
+mkdir -p "${ML_HOMELAB_ROOT}/logs/infra"
 mv "${ML_HOMELAB_ROOT}/log_${OUTPUT_SUFFIX}.log" "${ML_HOMELAB_ROOT}/logs/infra/log_${OUTPUT_SUFFIX}.log"
 
 log "INFO" "Running ml-data."
@@ -33,5 +34,6 @@ log "INFO" "Running ml-ui."
 ./ml-ui.sh "$PROJECT_NAME"
 
 PIPELINE_LOG_FILE_PATH_FINAL="${ML_HOMELAB_ROOT}/logs/pipeline/log_${OUTPUT_SUFFIX}.log"
+mkdir -p "${ML_HOMELAB_ROOT}/logs/pipeline"
 mv "$PIPELINE_LOG_FILE_PATH" "$PIPELINE_LOG_FILE_PATH_FINAL"
 export PIPELINE_LOG_FILE_PATH="$PIPELINE_LOG_FILE_PATH_FINAL"
