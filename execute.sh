@@ -70,6 +70,10 @@ docker_cmd="docker run --rm \
   -e OUTPUT_SUFFIX=\"$OUTPUT_SUFFIX\" \
   -e SERVING_PORT=\"$SERVING_PORT\" \
   -e UI_PORT=\"$UI_PORT\" \
+  -e OPENAI_BASE_URL \
+  -e OPENAI_API_KEY \
+  -e OPENAI_MODEL \
+  -e CURSOR_API_KEY \
   -e TF_LOG=INFO \
   -e TF_LOG_PATH=\"${ML_HOMELAB_ROOT}/log_${OUTPUT_SUFFIX}.log\" \
   \"$IMAGE_NAME\" \"$PROJECT\" \"$MODE\" \"$OUTPUT_SUFFIX\""
