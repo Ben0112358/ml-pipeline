@@ -50,6 +50,19 @@ export ML_HOMELAB_ROOT=/absolute/path/to/ml-homelab
 
 ---
 
+## Optional Environment Variables
+
+`execute.sh` forwards the following variables by name into the pipeline container. Each one is passed only if it is set in the environment `execute.sh` runs in; unset variables are skipped.
+
+- `OPENAI_BASE_URL`
+- `OPENAI_API_KEY`
+- `OPENAI_MODEL`
+- `CURSOR_API_KEY`
+
+When using the containerized run below, `execute.sh` runs inside that container, so also add a matching `-e` flag (for example `-e OPENAI_API_KEY`) to the `docker run` command for each variable you want forwarded.
+
+---
+
 ## Recommended Way to Run (Linux / macOS)
 
 You can run the full pipeline inside a lightweight container:
