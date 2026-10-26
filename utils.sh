@@ -48,3 +48,17 @@ compose_stage_repo() {
 	docker-compose -f "docker-compose.${project_name}.yaml" -p "${project_name}_${MODE}" build --no-cache
 	docker-compose -f "docker-compose.${project_name}.yaml" -p "${project_name}_${MODE}" up -d
 }
+
+run_stage() {
+	local repo_folder_name="$1"
+	local project_name="${2:-}"
+
+	log "INFO" "$0 executed for project $project_name"
+
+	if [[ -z "$project_name" ]]; then
+		log "ERROR" "Usage: $0 <project_name>"
+		exit 1
+	fi
+
+	compose_stage_repo "$repo_folder_name" "$project_name"
+}
