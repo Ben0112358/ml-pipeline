@@ -10,11 +10,4 @@ if [[ -z "$PROJECT_NAME" ]]; then
 	exit 1
 fi
 
-cd "${ML_WORKSPACE_ROOT}/ml-ui" || {
-	log "ERROR" "Failed to cd into ml-ui repo."
-	exit 1
-}
-
-log "INFO" "Docker composing."
-docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" -p "${PROJECT_NAME}_${MODE}" build --no-cache
-docker-compose -f "docker-compose.${PROJECT_NAME}.yaml" -p "${PROJECT_NAME}_${MODE}" up -d
+compose_stage_repo "ml-ui" "$PROJECT_NAME"
