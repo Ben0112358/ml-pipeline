@@ -18,6 +18,7 @@ To get an overview of how all sub-repos are tied together, refer to https://gith
 ml-pipeline/
 ├── Dockerfile            # Dockerfile used in execute.sh
 ├── execute.sh            # Main entrypoint (builds and runs pipeline)
+├── cleanup-docker-prefix.sh # Cleans up Docker leftovers from earlier runs
 ├── pipeline.sh           # Runs all pipeline steps
 ├── ml-infra.sh           # Infra step logic
 ├── ml-data.sh            # Data step logic
@@ -80,6 +81,15 @@ docker run --rm -it \
 
 Replace `<project_name>` with the name of your ML project (e.g., `dummy_project`) and `<mode>` with either `dev` or `prod`.
 
+---
+
+## Modes: `dev` and `prod`
+
+The mode decides where the pipeline gets the code of the five sub-repos (`ml-infra`, `ml-data`, `ml-training`, `ml-serving`, `ml-ui`):
+
+- `prod` clones the latest version of each sub-repo from GitHub.
+- `dev` copies your local checkouts instead, so you can test changes before pushing them. Each sub-repo must be checked out in a folder with its exact name directly under `$ML_HOMELAB_ROOT` (for example `$ML_HOMELAB_ROOT/ml-data`). If one is missing, the run stops with an error.
+
 
 ---
 
@@ -91,7 +101,7 @@ Windows users should run this via **WSL2**. Once inside WSL, follow the Linux in
 
 ## Networking
 
-Containers such as `ml-serving` and `ml-ui` will expose services on local ports. The port assignment is a function of `<project_name>` and `<mode>`. The logic is found in `<execute.sh>`.
+Containers such as `ml-serving` and `ml-ui` will expose services on local ports. The port assignment is a function of `<project_name>` and `<mode>`. The logic is found in `execute.sh`, and the chosen ports are printed when a run starts.
 
 
 ---
