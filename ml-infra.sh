@@ -3,10 +3,7 @@ set -euo pipefail
 
 source ./utils.sh
 
-cd "${ML_WORKSPACE_ROOT}/ml-infra" || {
-	log "ERROR" "Failed to cd into ml-infra repo."
-	exit 1
-}
+cd_stage_repo "ml-infra"
 
 log "INFO" "Terraform init & apply"
 terraform init
