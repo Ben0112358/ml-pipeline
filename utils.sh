@@ -35,18 +35,25 @@ cleanup() {
 	fi
 }
 
-compose_stage_repo() {
+cd_stage_repo() {
 	local repo_folder_name="$1"
-	local project_name="$2"
 
 	cd "${ML_WORKSPACE_ROOT}/${repo_folder_name}" || {
 		log "ERROR" "Failed to cd into ${repo_folder_name} repo."
 		exit 1
 	}
+}
+
+compose_stage_repo() {
+	local repo_folder_name="$1"
+	local project_name="$2"
+
+	cd_stage_repo "$repo_folder_name"
 
 	log "INFO" "Docker composing."
-	docker-compose -f "docker-compose.${project_name}.yaml" -p "${project_name}_${MODE}" build --no-cache
-	docker-compose -f "docker-compose.${project_name}.yaml" -p "${project_name}_${MODE}" up -d
+	local compose_args=(-f "docker-compose.${project_name}.yaml" -p "${project_name}_${MODE}")
+	docker-compose "${compose_args[@]}" build --no-cache
+	docker-compose "${compose_args[@]}" up -d
 }
 
 run_stage() {
