@@ -105,3 +105,16 @@ Containers such as `ml-serving` and `ml-ui` will expose services on local ports.
 
 
 ---
+
+## Logs
+
+Each run writes its logs below `$ML_HOMELAB_ROOT`. The files under `logs/` are named `log_<project_name>_<mode>_<timestamp>.log`, where the timestamp is the time the run started, as `YYYY-MM-DD-HH-MM`.
+
+- `logs/pipeline/` keeps the pipeline log of each run that finished successfully.
+- `logs/infra/` keeps the Terraform log of each run whose `ml-infra` step succeeded.
+
+Logs that have not been moved into `logs/` yet, because the run is still going or stopped with an error, sit directly in `$ML_HOMELAB_ROOT` instead, so look there first when a run fails. The overall result of each run (`Pipeline finished successfully` or `Pipeline failed`) is written to `unknown-pipeline.log` in that same folder.
+
+Every run deletes the `.log` files directly in `$ML_HOMELAB_ROOT` when it starts, so copy any you want to keep before starting the next run. The files under `logs/` are kept.
+
+---
