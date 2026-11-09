@@ -41,8 +41,6 @@ MODE="${1:-dev}"
 log "INFO" "$0 executed in mode $MODE."
 
 log "INFO" "Preparing all repos."
-prepare_repo "https://github.com/Ben0112358/ml-infra.git" "ml-infra" "$MODE"
-prepare_repo "https://github.com/Ben0112358/ml-data.git" "ml-data" "$MODE"
-prepare_repo "https://github.com/Ben0112358/ml-training.git" "ml-training" "$MODE"
-prepare_repo "https://github.com/Ben0112358/ml-serving.git" "ml-serving" "$MODE"
-prepare_repo "https://github.com/Ben0112358/ml-ui.git" "ml-ui" "$MODE"
+for repo in ml-infra ml-data ml-training ml-serving ml-ui; do
+	prepare_repo "https://github.com/Ben0112358/${repo}.git" "$repo" "$MODE"
+done
