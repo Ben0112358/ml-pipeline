@@ -106,6 +106,19 @@ Containers such as `ml-serving` and `ml-ui` will expose services on local ports.
 
 ---
 
+## Re-running and Cleanup
+
+Each run starts by removing Docker leftovers from earlier runs of the same `<project_name>` and `<mode>`. `execute.sh` calls `cleanup-docker-prefix.sh` with the prefix `<project_name>_<mode>`, which force-removes:
+
+- containers whose names start with that prefix, even if they are still running
+- images, volumes, and networks whose names contain that prefix
+
+So re-running the same project and mode stops the services of the previous run and deletes any data kept in its Docker volumes. Back up anything you need from those volumes before starting the run again.
+
+The cleanup also runs `docker builder prune -f` and `docker image prune -f`. These apply to the whole Docker host, not just this project, so they also clear dangling build cache and dangling images left by other work on the same machine.
+
+---
+
 ## Logs
 
 Each run writes its logs below `$ML_HOMELAB_ROOT`. The files under `logs/` are named `log_<project_name>_<mode>_<timestamp>.log`, where the timestamp is the time the run started, as `YYYY-MM-DD-HH-MM`.
